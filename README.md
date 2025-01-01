@@ -6,9 +6,9 @@
     <li>Mild Demented</li>
     <li>Moderate Demented</li>
 </ul>
-<ul>
+
 <p>Additionally, the platform allows users to input medical data for classification, helping to determine whether a patient is likely to have Alzheimer's or not. This dual approach provides a comprehensive tool for early detection and monitoring of Alzheimer's disease progression.</p>
-</ul>
+
 <p>This project serves as a tool to assist healthcare professionals and researchers in the early detection and monitoring of Alzheimer's disease progression. Additionally, the platform incorporates two distinct models:</p>
 <ul>
     <li><strong>CT Scan Model:</strong> This model analyzes CT scan images and classifies them into the four stages of dementia: Non-Demented, Very Mild Demented, Mild Demented, and Moderate Demented.</li>
