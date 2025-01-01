@@ -1,4 +1,5 @@
 /* General Styling */
+/* Global body styling */
 body {
     font-family: 'Poppins', sans-serif;
     background: url('/static/images/background.webp');
@@ -13,6 +14,7 @@ body {
     overflow: hidden; /* Prevent body scrolling */
 }
 
+/* Container to hold all content */
 .container {
     max-width: 900px; /* Set max-width */
     width: 100%; /* Make it responsive */
@@ -26,7 +28,7 @@ body {
     margin: 0 auto; /* Center the container */
 }
 
-/* Headings */
+/* Headings styling */
 .h_1 {
     font-size: 2.5rem;
     margin-bottom: 20px;
@@ -35,6 +37,98 @@ body {
     color: #ffffff;
     text-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
 }
+
+/* Result box containing the diagnosis */
+.result-box {
+    margin-top: 20px;
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent white */
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Text for result */
+.result-text {
+    font-size: 1.2rem;
+    color: #f0f0f0;
+    margin-bottom: 10px;
+}
+
+/* Diagnosis section */
+.diagnosis {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #4caf50; /* Green color for positive result */
+    margin-top: 10px;
+}
+
+/* Diagnosis summary paragraph */
+.diagnosis-summary {
+    font-size: 1.1rem;
+    color: #e0e0e0;
+    margin-top: 20px;
+    line-height: 1.6;
+    text-align: left;
+}
+
+/* Styling for the "Go Back" button */
+.back-button-container {
+    margin-top: 30px;
+}
+
+.gradient-button {
+    background: linear-gradient(45deg, #4caf50, #81c784);
+    padding: 12px 25px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 25px;
+    color: white;
+    transition: background 0.3s ease;
+}
+
+.gradient-button:hover {
+    background: linear-gradient(45deg, #388e3c, #66bb6a);
+}
+
+/* Responsive styling */
+@media screen and (max-width: 768px) {
+    .container {
+        width: 90%; /* Increase width for smaller screens */
+        padding: 15px;
+    }
+
+    .h_1 {
+        font-size: 2rem;
+    }
+
+    .diagnosis {
+        font-size: 1.6rem;
+    }
+
+    .diagnosis-summary {
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .result-box {
+        padding: 15px;
+    }
+
+    .gradient-button {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+
+    .h_1 {
+        font-size: 1.8rem;
+    }
+}
+
+
+
+
 
 /* Medical Requirements List */
 ul {

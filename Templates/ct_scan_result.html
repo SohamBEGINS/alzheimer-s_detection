@@ -15,6 +15,17 @@
             <h2 class="diagnosis">
                 {{ diagnosis }}
             </h2>
+            <p class="diagnosis-summary">
+                {% if diagnosis == "Mild Demented" %}
+                    <b>The CT scan indicates that you may be in the early stages of dementia, showing mild memory loss and confusion. It is important to monitor these symptoms and consult a healthcare professional for further evaluation and support.</b>
+                {% elif diagnosis == "Moderate Demented" %}
+                    <b>The CT scan suggests that you are experiencing moderate dementia, characterized by severe memory impairment, difficulty with communication, and a need for assistance with daily tasks. We recommend seeking professional care and considering appropriate interventions.</b>
+                {% elif diagnosis == "Non Demented" %}
+                    <b>As per the CT scan provided, you are safe and no signs of dementia were detected. It is always better to contact a professional if further complications develop or if any symptoms arise.</b>
+                {% elif diagnosis == "Very Mild Demented" %}
+                    <b>The CT scan shows early signs of dementia with mild memory issues and occasional confusion. It is important to monitor the symptoms and seek guidance from a healthcare professional for appropriate management.</b>
+                {% endif %}
+            </p>
         </div>
 
         <div class="back-button-container">

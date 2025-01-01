@@ -239,7 +239,7 @@ def upload_ct_scan():
             time.sleep(3)  # Add another delay to simulate time spent on prediction
 
             # Return prediction result
-            return render_template('ct_scan_result.html', diagnosis=f"Predicted: {class_label[predicted_class[0]]}")
+            return render_template('ct_scan_result.html', diagnosis=class_label[predicted_class[0]])
 
     except Exception as e:
         return f"Error: {str(e)}"

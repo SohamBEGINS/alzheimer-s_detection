@@ -29,6 +29,7 @@ body, html {
     line-height: 1.5;
     opacity: 1;
     transition: opacity 1.5s ease-in-out;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 /* Elegant button style */
@@ -61,7 +62,7 @@ body, html {
 
 #description {
     margin: 20px 0;
-    font-size: 20px;
+    font-size: 30px;
     line-height: 1.8;
     color: #f0f0f0;
     font-weight: 500;
@@ -92,7 +93,7 @@ body, html {
 
 /* Highlight only "Brighter" with a glowing effect */
 #tagline {
-    font-size: 2.5em;
+    font-size: 3em;
     font-weight: bold;
     color: white;
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.6), 0 0 10px rgba(255, 255, 255, 0.4);
