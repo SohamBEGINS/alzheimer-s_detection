@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles2.css') }}">
+</head>
+<body id="body_2" img src="{{ url_for('static', filename='images/background.webp') }}" alt="Background">
+
+    <div class="container">
+        <!-- Initial Page: "Do you have a CT scan?" -->
+        <div id="ct-scan-question">
+            <h1 class="h_1">DO YOU HAVE A RECENT CT SCAN OF YOUR BRAIN?</h1>
+
+            <!-- CT Scan Image and Description -->
+<div id="ct-scan-info">
+    <div class="ct-image">
+        <img src="{{ url_for('static', filename='images/ct_scan_img.jpg') }}" alt="CT Scan">
+    </div>
+    
+    <p class="ct-description">
+        A CT (Computed Tomography) scan is a medical imaging procedure used to visualize the internal structures of the body, including the brain. It is commonly used for detecting conditions like brain injuries, tumors, and Alzheimer's disease.
+    </p>
+</div>
+
+
+            <!-- Yes and No Buttons -->
+            <div class="button-container-2">
+                <button id="yes-btn" class="gradient-button" onclick="showUploadSection()">YES</button>
+                <button id="no-btn" class="gradient-button" onclick="showMedicalInfo()">NO</button>
+            </div>
+        </div>
+
+        <!-- Upload Image Section -->
+<div id="upload-section" style="display:none;">
+    <h1 class="h_1">Upload Your CT Scan Image</h1>
+    <form action="/upload_ct_scan" method="POST" enctype="multipart/form-data">
+        <div class="upload-box">
+            <input type="file" name="ct_scan" accept="image/*" required>
+        </div>
+        <button type="submit" class="gradient-button">Submit</button>
+    </form>
+</div>
+
+        <!-- Medical Info Section (Initially hidden) -->
+        <div id="medical-info" style="display:none;">
+            <h1 class="h_1">Medical Requirements</h1>
+            <ul>
+                <li>Age: 60-90 years</li>
+                <li>Gender: 0 = Male, 1 = Female</li>
+                <li>Ethnicity: 0 = Caucasian, 1 = African American, 2 = Asian, 3 = Other</li>
+                <li>Education Level: 0 = None, 1 = High School, 2 = Bachelor's, 3 = Higher</li>
+                <li>Smoking: 0 = No, 1 = Yes</li>
+                <li>Family History of Alzheimer's: 0 = No, 1 = Yes</li>
+                <li>Cardiovascular Disease: 0 = No, 1 = Yes</li>
+                <li>Diabetes: 0 = No, 1 = Yes</li>
+                <li>Depression: 0 = No, 1 = Yes</li>
+                <li>Head Injury: 0 = No, 1 = Yes</li>
+                <li>Hypertension: 0 = No, 1 = Yes</li>
+                <li>Systolic BP: 90-180 mmHg</li>
+                <li>Diastolic BP: 60-120 mmHg</li>
+                <li>Total Cholesterol: 150-300 mg/dL</li>
+                <li>LDL Cholesterol: 50-200 mg/dL</li>
+                <li>HDL Cholesterol: 20-100 mg/dL</li>
+                <li>Triglycerides: 50-400 mg/dL</li>
+                <li>Functional Assessment: 0-10</li>
+                <li>Memory Complaints: 0 = No, 1 = Yes</li>
+                <li>Behavioral Problems: 0 = No, 1 = Yes</li>
+                <li>Symptoms: Confusion, Disorientation, Personality Changes, Difficulty Completing Tasks, Forgetfulness</li>
+                <li>Diagnosis: 0 = No, 1 = Yes (Alzheimer's)</li>
+            </ul>
+            
+            <!-- Proceed and Go Back Buttons -->
+            <div class="button-container" >
+                <form action="/medical_info" method="GET">
+                    <button type="submit" class="gradient-button">PROCEED</button>
+                </form>
+                <button class="gradient-button" onclick="goBackToCTScan()">GO BACK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript to handle UI transitions and form submissions -->
+    <script>
+        function showUploadSection() {
+            document.getElementById("ct-scan-question").style.display = "none";
+            document.getElementById("upload-section").style.display = "block";
+        }
+
+        function showMedicalInfo() {
+            document.getElementById("ct-scan-question").style.display = "none";
+            document.getElementById("medical-info").style.display = "block";
+        }
+
+        function goBackToCTScan() {
+            document.getElementById("medical-info").style.display = "none";
+            document.getElementById("ct-scan-question").style.display = "block";
+        }
+
+        function proceedWithModel() {
+            // Here, you would trigger Model-2 and display the result
+            alert("Model-2 is running...");
+        }
+
+        function submitCTScan() {
+            // Handle the CT scan image submission to run Model-1
+            alert("Running Model-1...");
+        }
+    </script>
+
+</body>
+</html>
