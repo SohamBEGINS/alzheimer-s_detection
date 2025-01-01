@@ -3,7 +3,7 @@ body, html {
     margin: 0;
     padding: 0;
     height: 100%;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* A more elegant font */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: black;
     transition: background-color 2s ease-in-out;
     overflow: hidden;
@@ -61,11 +61,11 @@ body, html {
 
 #description {
     margin: 20px 0;
-    font-size: 20px; /* Increased font size for elegance */
+    font-size: 20px;
     line-height: 1.8;
     color: #f0f0f0;
-    font-weight: 500; /* Make the description text stand out */
-    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Add a subtle shadow for elegance */
+    font-weight: 500;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .button-container {
@@ -88,6 +88,29 @@ body, html {
 #loginBtn:hover, #signupBtn:hover {
     transform: scale(1.1);
     background-color: #e6e6e6;
+}
+
+/* Highlight only "Brighter" with a glowing effect */
+#tagline {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.6), 0 0 10px rgba(255, 255, 255, 0.4);
+}
+
+#tagline span {
+    color: #FFD700; /* Gold color for "Brighter" */
+    text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 30px #FF8C00;
+    animation: glow 1.5s infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 30px #FF8C00;
+    }
+    to {
+        text-shadow: 0 0 20px #FFD700, 0 0 30px #FF8C00, 0 0 40px #FF4500;
+    }
 }
 
 /* Glitter effect styles */
@@ -185,11 +208,7 @@ input {
     background-color: #e6e6e6;
 }
 
-
-
-
-/*dashboard styles*/
-
+/* Dashboard styles */
 #body_2 {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -270,8 +289,3 @@ ul li {
     font-size: 1.1em;
     margin: 5px 0;
 }
-
-
-
-
-
