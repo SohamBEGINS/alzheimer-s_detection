@@ -14,16 +14,15 @@
             <h1 class="h_1">DO YOU HAVE A RECENT CT SCAN OF YOUR BRAIN?</h1>
 
             <!-- CT Scan Image and Description -->
-<div id="ct-scan-info">
-    <div class="ct-image">
-        <img src="{{ url_for('static', filename='images/ct_scan_img.jpg') }}" alt="CT Scan">
-    </div>
-    
-    <p class="ct-description">
-        A CT (Computed Tomography) scan is a medical imaging procedure used to visualize the internal structures of the body, including the brain. It is commonly used for detecting conditions like brain injuries, tumors, and Alzheimer's disease.
-    </p>
-</div>
+            <div id="ct-scan-info">
+                <div class="ct-image">
+                    <img src="{{ url_for('static', filename='images/ct_scan_img.jpg') }}" alt="CT Scan">
+                </div>
 
+                <p class="ct-description">
+                    A CT (Computed Tomography) scan is a medical imaging procedure used to visualize the internal structures of the body, including the brain. It is commonly used for detecting conditions like brain injuries, tumors, and Alzheimer's disease.
+                </p>
+            </div>
 
             <!-- Yes and No Buttons -->
             <div class="button-container-2">
@@ -33,16 +32,15 @@
         </div>
 
         <!-- Upload Image Section -->
-<div id="upload-section" style="display:none;">
-    <h1 class="h_1">Upload Your CT Scan Image</h1>
-    <form action="/upload_ct_scan" method="POST" enctype="multipart/form-data" onsubmit="showProgressBar()">
-        <div class="upload-box">
-            <input type="file" name="ct_scan" accept="image/*" required>
+        <div id="upload-section" style="display:none;">
+            <h1 class="h_1">Upload Your CT Scan Image</h1>
+            <form action="/upload_ct_scan" method="POST" enctype="multipart/form-data" onsubmit="showProgressBar()">
+                <div class="upload-box">
+                    <input type="file" name="ct_scan" accept="image/*" required>
+                </div>
+                <button type="submit" class="gradient-button">Submit</button>
+            </form>
         </div>
-        <button type="submit" class="gradient-button">Submit</button>
-    </form>
-    
-</div>
 
         <!-- Medical Info Section (Initially hidden) -->
         <div id="medical-info" style="display:none;">
@@ -73,58 +71,61 @@
             </ul>
             
             <!-- Proceed and Go Back Buttons -->
-            <div class="button-container" >
+            <div class="button-container">
                 <form action="/medical_info" method="GET">
                     <button type="submit" class="gradient-button">PROCEED</button>
                 </form>
                 <button class="gradient-button" onclick="goBackToCTScan()">GO BACK</button>
             </div>
         </div>
+
+        <!-- Progress Bar Section (Moved outside of container) -->
+    <div id="progress-section" style="display:none;">
+        <h1 class="h_1">Processing...</h1>
+        <div class="progress-bar-container">
+            <div class="progress-bar"></div>
+        </div>
+        <p>Please wait while we process your CT scan...</p>
     </div>
-    <!-- Progress Bar Section -->
-<div id="progress-section" style="display:none;">
-    <h1 class="h_1">Processing...</h1>
-    <div class="progress-bar-container">
-        <div class="progress-bar"></div>
+
+    <style>
+        /* Progress Bar Styles */
+        .progress-bar-container {
+            width: 80%;
+            height: 30px;
+            background-color: #e0e0e0;
+            margin: 20px auto;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #4caf50, #2196f3);
+            animation: progress-animation 10s linear forwards; /* Increase duration to simulate longer processing */
+            border-radius: 15px;
+        }
+
+        @keyframes progress-animation {
+            0% {
+                width: 0%;
+            }
+            50% {
+                width: 70%; /* Mid-point where it appears half complete */
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+    </style>
+
+
     </div>
-    <p>Please wait while we process your CT scan...</p>
-</div>
 
-<style>
-/* Progress Bar Styles */
-.progress-bar-container {
-    width: 80%;
-    height: 30px;
-    background-color: #e0e0e0;
-    margin: 20px auto;
-    border-radius: 15px;
-    overflow: hidden;
-    position: relative;
-}
-
-.progress-bar {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #4caf50, #2196f3);
-    animation: progress-animation 10s linear forwards; /* Increase duration to simulate longer processing */
-    border-radius: 15px;
-}
-
-@keyframes progress-animation {
-    0% {
-        width: 0%;
-    }
-    50% {
-        width: 70%; /* Mid-point where it appears half complete */
-    }
-
-    100% {
-        width: 100%;
-    }
-}
-
-</style>
-
+    
 
     <!-- JavaScript to handle UI transitions and form submissions -->
     <script>
@@ -143,19 +144,10 @@
             document.getElementById("ct-scan-question").style.display = "block";
         }
 
-        function proceedWithModel() {
-            // Here, you would trigger Model-2 and display the result
-            alert("Model-2 is running...");
-        }
-
-        function submitCTScan() {
-            // Handle the CT scan image submission to run Model-1
-            alert("Running Model-1...");
-        }
         function showProgressBar() {
-    document.getElementById("upload-section").style.display = "none";
-    document.getElementById("progress-section").style.display = "block";
-}
+            document.getElementById("upload-section").style.display = "none";
+            document.getElementById("progress-section").style.display = "block";
+        }
     </script>
 
 </body>

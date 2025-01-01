@@ -14,15 +14,16 @@ body {
 }
 
 .container {
-    max-width: 900px;
-    width: 100%;
-    height: 80%; /* Adjust height as needed */
+    max-width: 900px; /* Set max-width */
+    width: 100%; /* Make it responsive */
     padding: 20px;
     text-align: center;
     background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    overflow-y: auto; /* Enable scrolling inside the container */
+    overflow-y: auto; /* Enable vertical scrolling */
+    max-height: 80vh; /* Set a maximum height (adjust as needed) */
+    margin: 0 auto; /* Center the container */
 }
 
 /* Headings */
