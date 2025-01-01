@@ -66,7 +66,6 @@
 <p>The dataset can be found at the following link: 
 <a href="https://www.kaggle.com/datasets/raihannaufalramadhan/alzheimer-data">CT Scan Dataset on Kaggle</a></p>
 
-
 <h2>Technologies Used</h2>
 <ul>
     <li><strong>Backend:</strong> Flask framework with Jinja2 template engine.</li>
@@ -90,9 +89,14 @@
     <li>Run the Flask application:
         <pre><code>python app.py</code></pre>
     </li>
+    <li>Log in to the application:
+        <ul>
+            <li>Username: <code>admin</code></li>
+            <li>Password: <code>password123</code></li>
+        </ul>
+    </li>
     <li>Open your browser and go to <code>http://127.0.0.1:5000</code>.</li>
 </ol>
-
 
 <h2>Usage</h2>
 <ol>
@@ -112,7 +116,6 @@
     <li><strong>data/:</strong> Organized dataset for training and testing, including CT scan images and medical records.</li>
 </ul>
 
-
 <h2>Acknowledgments</h2>
 <p>Special thanks to Vellore Institute of Technology for hosting a competition that inspires and pushes students to showcase their technical and innovative side.</p>
 
@@ -125,4 +128,3 @@
 
 <p><strong>Copyright Notice</strong></p>
 <p>This project is created for a competition and is not open for public use, redistribution, or modification. All rights are reserved by the author. Unauthorized use or distribution of this code is prohibited.</p>
-
