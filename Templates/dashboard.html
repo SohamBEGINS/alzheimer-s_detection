@@ -35,12 +35,13 @@
         <!-- Upload Image Section -->
 <div id="upload-section" style="display:none;">
     <h1 class="h_1">Upload Your CT Scan Image</h1>
-    <form action="/upload_ct_scan" method="POST" enctype="multipart/form-data">
+    <form action="/upload_ct_scan" method="POST" enctype="multipart/form-data" onsubmit="showProgressBar()">
         <div class="upload-box">
             <input type="file" name="ct_scan" accept="image/*" required>
         </div>
         <button type="submit" class="gradient-button">Submit</button>
     </form>
+    
 </div>
 
         <!-- Medical Info Section (Initially hidden) -->
@@ -80,6 +81,50 @@
             </div>
         </div>
     </div>
+    <!-- Progress Bar Section -->
+<div id="progress-section" style="display:none;">
+    <h1 class="h_1">Processing...</h1>
+    <div class="progress-bar-container">
+        <div class="progress-bar"></div>
+    </div>
+    <p>Please wait while we process your CT scan...</p>
+</div>
+
+<style>
+/* Progress Bar Styles */
+.progress-bar-container {
+    width: 80%;
+    height: 30px;
+    background-color: #e0e0e0;
+    margin: 20px auto;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #4caf50, #2196f3);
+    animation: progress-animation 10s linear forwards; /* Increase duration to simulate longer processing */
+    border-radius: 15px;
+}
+
+@keyframes progress-animation {
+    0% {
+        width: 0%;
+    }
+    50% {
+        width: 70%; /* Mid-point where it appears half complete */
+    }
+
+    100% {
+        width: 100%;
+    }
+}
+
+</style>
+
 
     <!-- JavaScript to handle UI transitions and form submissions -->
     <script>
@@ -107,6 +152,10 @@
             // Handle the CT scan image submission to run Model-1
             alert("Running Model-1...");
         }
+        function showProgressBar() {
+    document.getElementById("upload-section").style.display = "none";
+    document.getElementById("progress-section").style.display = "block";
+}
     </script>
 
 </body>

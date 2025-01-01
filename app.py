@@ -130,6 +130,11 @@ def get_medical_info():
     else:
         return render_template('predict_medical.html')
 
+from flask import jsonify
+import time
+
+import time
+
 @app.route('/upload_ct_scan', methods=['POST'])
 def upload_ct_scan():
     try:
@@ -147,6 +152,9 @@ def upload_ct_scan():
             img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
             img_array = img_array / 255.0  # Rescale the image
 
+            # # Simulate some processing delay here before predicting
+            # time.sleep(5)  # Wait for 5 seconds before starting model prediction (adjust as needed)
+
             # Extract features using the DenseNet model
             img_features = densenet_model.predict(img_array)  # Use DenseNet for feature extraction
             img_features_flat = img_features.reshape(1, -1)
@@ -157,11 +165,20 @@ def upload_ct_scan():
             predicted_class = np.argmax(prediction, axis=1)
             class_label = ['Mild Demented', 'Moderate Demented', 'Non Demented', 'Very Mild Demented']
 
+            # Simulate more processing time (you can adjust the time here as needed)
+            time.sleep(3)  # Add another delay to simulate time spent on prediction
+
             # Return prediction result
-            return render_template('ct_scan_result.html', diagnosis=f"Predicted Class: {class_label[predicted_class[0]]}")
+            return render_template('ct_scan_result.html', diagnosis=f"Predicted: {class_label[predicted_class[0]]}")
 
     except Exception as e:
         return f"Error: {str(e)}"
+
+
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
