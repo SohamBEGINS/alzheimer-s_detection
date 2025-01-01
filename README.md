@@ -75,7 +75,7 @@
 <p>This project is licensed under the <a href="LICENSE">MIT License</a>.</p>
 
 <h2>Acknowledgments</h2>
-<p>Special thanks to Team Salvatores for their dedication to this project and to Assistant Professor Jamimul Bakas of BIT Mesra for their guidance in geo deepfake detection research, which inspired this work.</p>
+<p>Special thanks to Vellore Institute of Technology for hosting a competion which would inspire and push students to showcase their technical and innovative side .</p>
 
 <h2>Contact</h2>
 <p>For inquiries, please contact <a href="mailto:your_email@example.com">your_email@example.com</a>.</p>
