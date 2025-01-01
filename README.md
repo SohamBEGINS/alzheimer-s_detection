@@ -79,7 +79,7 @@
 <h2>Installation</h2>
 <ol>
     <li>Clone the repository:
-        <pre><code>git clone &lt;repository_url&gt;</code></pre>
+        <pre><code>git clone https://github.com/SohamBEGINS/tech4tmrw_team_Salvators</code></pre>
     </li>
     <li>Navigate to the project directory:
         <pre><code>cd alzheimers_detection-team_salvatores</code></pre>
@@ -92,6 +92,7 @@
     </li>
     <li>Open your browser and go to <code>http://127.0.0.1:5000</code>.</li>
 </ol>
+
 
 <h2>Usage</h2>
 <ol>
