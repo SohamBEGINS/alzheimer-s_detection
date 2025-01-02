@@ -18,7 +18,7 @@ app = Flask(__name__)
 scaler = joblib.load('scaler.pkl')  # Load the scaler
 stacking_model = joblib.load('stacking_model.pkl')  # Load the stacking model
 
-model_dir = r'C:\Users\soham\OneDrive\Desktop\alzheimers_website\ct_scan_models'
+model_dir = r'C:\Users\soham\OneDrive\Desktop\team_salvators_second_round_submission\src\ct_scan_models'
 
 # Load DenseNet model weights
 densenet_model = DenseNet201(weights=None, include_top=False, input_shape=(224, 224, 3))
@@ -129,7 +129,7 @@ def get_medical_info():
 
             # Generate PDF with user inputs and prediction result
             pdf_filename = f"medical_report_{int(time.time())}.pdf"  # Unique filename using timestamp
-            pdf_path = os.path.join(r'C:\Users\soham\OneDrive\Desktop\alzheimers_website\temp_save', pdf_filename)
+            pdf_path = os.path.join(r'C:\Users\soham\OneDrive\Desktop\team_salvators_second_round_submission\src\temp_save', pdf_filename)
 
             pdf_buffer = BytesIO()
             c = canvas.Canvas(pdf_buffer, pagesize=letter)
@@ -182,7 +182,7 @@ logging.basicConfig(level=logging.DEBUG)
 def trigger_pdf_generation(filename):
     try:
         # Construct the full path to the PDF file
-        pdf_path = os.path.join(r'C:\Users\soham\OneDrive\Desktop\alzheimers_website\temp_save', filename)
+        pdf_path = os.path.join(r'C:\Users\soham\OneDrive\Desktop\team_salvators_second_round_submission\src\temp_save', filename)
         print(f"PDF Path: {pdf_path}")  # Debugging line
 
         # Check if the file exists
