@@ -18,7 +18,7 @@ app = Flask(__name__)
 scaler = joblib.load('scaler.pkl')  # Load the scaler
 stacking_model = joblib.load('stacking_model.pkl')  # Load the stacking model
 
-model_dir = r'C:\Users\soham\OneDrive\Desktop\alzheimers_website\ct_scan_models'
+model_dir = r'C:\Users\BIT\Desktop\alzheimer_final\tech4tmrw_team_Salvators\ct_scan_models'
 
 # Load DenseNet model weights
 densenet_model = DenseNet201(weights=None, include_top=False, input_shape=(224, 224, 3))
@@ -64,11 +64,20 @@ def login():
 def dashboard():
     return render_template('dashboard.html')
 
+from flask import Flask, render_template, request, redirect, send_file
+import os
+import time
+from io import BytesIO
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.lib import colors
+
+
+
 @app.route('/medical_info', methods=['GET', 'POST'])
 def get_medical_info():
     if request.method == 'POST':
         try:
-            # Get data from form
             input_features = []
 
             def convert_to_mg_dl(value, unit):
@@ -76,7 +85,6 @@ def get_medical_info():
                     return round(value * 38.67, 2)
                 return round(value, 2)
 
-            # Collecting input features from the form
             input_features.append(int(request.form['Age']))
             input_features.append(int(request.form['Gender']))
             input_features.append(int(request.form['Ethnicity']))
@@ -104,15 +112,22 @@ def get_medical_info():
                 return redirect("https://compendiumapp.com/post_4xQIen-Ly")
             else:
                 input_features.append(float(mmse_value))
-            adl_value = request.form['FunctionalAssessment']
+
+            functional_assessment = request.form['FunctionalAssessment']
+            if functional_assessment == "Not Available":
+                return redirect("https://www.compassus.com/healthcare-professionals/determining-eligibility/functional-assessment-staging-tool-fast-scale-for-dementia/")
+            else:
+                input_features.append(round(float(functional_assessment), 2))
+
+            adl_value = request.form['ADL']
             if adl_value == "Not Available":
                 return redirect("https://www.mdcalc.com/calc/3912/barthel-index-activities-daily-living-adl#evidence")
             else:
                 input_features.append(round(float(adl_value), 2))
-            input_features.extend([  # Adding other features
+
+            input_features.extend([
                 int(request.form['MemoryComplaints']),
                 int(request.form['BehavioralProblems']),
-                int(round(float(request.form['ADL']))),
                 int(request.form['Confusion']),
                 int(request.form['Disorientation']),
                 int(request.form['PersonalityChanges']),
@@ -120,50 +135,60 @@ def get_medical_info():
                 int(request.form['Forgetfulness'])
             ])
 
-            # Preprocess and predict
             scaled_features = scaler.transform([input_features])
             prediction = stacking_model.predict(scaled_features)
 
-            # Output result
             diagnosis = "Positive for Alzheimer's" if prediction[0] == 1 else "Negative for Alzheimer's"
 
-            # Generate PDF with user inputs and prediction result
-            pdf_filename = f"medical_report_{int(time.time())}.pdf"  # Unique filename using timestamp
-            pdf_path = os.path.join(r'C:\Users\soham\OneDrive\Desktop\alzheimers_website\temp_save', pdf_filename)
+            pdf_filename = f"medical_report_{int(time.time())}.pdf"
+            pdf_path = os.path.join(r'C:\Users\BIT\Desktop\alzheimer_final\temp_pdf_save', pdf_filename)
 
             pdf_buffer = BytesIO()
-            c = canvas.Canvas(pdf_buffer, pagesize=letter)
+            doc = SimpleDocTemplate(pdf_buffer, pagesize=letter)
 
-            c.drawString(100, 750, f"Age: {input_features[0]}")
-            c.drawString(100, 730, f"Gender: {input_features[1]}")
-            c.drawString(100, 710, f"Ethnicity: {input_features[2]}")
-            c.drawString(100, 690, f"Education Level: {input_features[3]}")
-            c.drawString(100, 670, f"BMI: {input_features[4]}")
-            c.drawString(100, 650, f"Smoking: {input_features[5]}")
-            c.drawString(100, 630, f"Family History of Alzheimer's: {input_features[6]}")
-            c.drawString(100, 610, f"Cardiovascular Disease: {input_features[7]}")
-            c.drawString(100, 590, f"Diabetes: {input_features[8]}")
-            c.drawString(100, 570, f"Depression: {input_features[9]}")
-            c.drawString(100, 550, f"Head Injury: {input_features[10]}")
-            c.drawString(100, 530, f"Hypertension: {input_features[11]}")
-            c.drawString(100, 510, f"Systolic BP: {input_features[12]}")
-            c.drawString(100, 490, f"Diastolic BP: {input_features[13]}")
-            c.drawString(100, 470, f"Cholesterol Total: {input_features[14]}")
-            c.drawString(100, 450, f"Cholesterol LDL: {input_features[15]}")
-            c.drawString(100, 430, f"Cholesterol HDL: {input_features[16]}")
-            c.drawString(100, 410, f"Cholesterol Triglycerides: {input_features[17]}")
-            c.drawString(100, 390, f"MMSE: {input_features[18]}")
-            c.drawString(100, 370, f"Functional Assessment: {input_features[19]}")
-            c.drawString(100, 350, f"Diagnosis: {diagnosis}")
+            data = [
+                ["Feature", "Value"],
+                ["Age", input_features[0]],
+                ["Gender", input_features[1]],
+                ["Ethnicity", input_features[2]],
+                ["Education Level", input_features[3]],
+                ["BMI", input_features[4]],
+                ["Smoking", input_features[5]],
+                ["Family History of Alzheimer's", input_features[6]],
+                ["Cardiovascular Disease", input_features[7]],
+                ["Diabetes", input_features[8]],
+                ["Depression", input_features[9]],
+                ["Head Injury", input_features[10]],
+                ["Hypertension", input_features[11]],
+                ["Systolic BP", input_features[12]],
+                ["Diastolic BP", input_features[13]],
+                ["Cholesterol Total", input_features[14]],
+                ["Cholesterol LDL", input_features[15]],
+                ["Cholesterol HDL", input_features[16]],
+                ["Cholesterol Triglycerides", input_features[17]],
+                ["MMSE", input_features[18]],
+                ["Functional Assessment", input_features[19]],
+                ["Diagnosis", diagnosis]
+            ]
 
-            c.showPage()
-            c.save()
+            table = Table(data)
+            table.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('FONTSIZE', (0, 0), (-1, 0), 12),
+                ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                ('GRID', (0, 0), (-1, -1), 1, colors.black),
+            ]))
 
-            # Save the PDF to the folder
+            elements = [table]
+            doc.build(elements)
+
             with open(pdf_path, 'wb') as f:
                 f.write(pdf_buffer.getvalue())
 
-            # Render result page with the link to download the PDF
             return render_template('result.html', diagnosis=diagnosis, pdf_filename=pdf_filename)
 
         except Exception as e:
@@ -172,30 +197,18 @@ def get_medical_info():
     else:
         return render_template('predict_medical.html')
 
-# Route to trigger PDF generation on button click
-import logging
-
-# Configure logging
-logging.basicConfig(level=logging.DEBUG)
-
 @app.route('/trigger_pdf_generation/<filename>', methods=['GET'])
 def trigger_pdf_generation(filename):
     try:
-        # Construct the full path to the PDF file
-        pdf_path = os.path.join(r'C:\Users\soham\OneDrive\Desktop\alzheimers_website\temp_save', filename)
-        print(f"PDF Path: {pdf_path}")  # Debugging line
+        pdf_path = os.path.join(r'C:\Users\BIT\Desktop\alzheimer_final\temp_pdf_save', filename)
 
-        # Check if the file exists
         if os.path.exists(pdf_path):
-            print(f"PDF file found at: {pdf_path}")
-            # Send the PDF file to the client to be displayed in the browser
             return send_file(pdf_path, as_attachment=False, mimetype='application/pdf')
         else:
-            print(f"PDF file not found at: {pdf_path}")
             return "PDF file does not exist.", 404
     except Exception as e:
-        print(f"Error: {str(e)}")
         return f"Error: {str(e)}", 500
+
 
 
 
