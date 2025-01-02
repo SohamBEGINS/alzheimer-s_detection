@@ -18,7 +18,8 @@ app = Flask(__name__)
 scaler = joblib.load('scaler.pkl')  # Load the scaler
 stacking_model = joblib.load('stacking_model.pkl')  # Load the stacking model
 
-model_dir = r'C:\Users\soham\OneDrive\Desktop\alzheimers_website\ct_scan_models'
+model_dir = r'C:\Users\soham\OneDrive\Desktop\team_salvators_second_round_submission\src\ct_scan_models'
+
 
 # Load DenseNet model weights
 densenet_model = DenseNet201(weights=None, include_top=False, input_shape=(224, 224, 3))
@@ -142,37 +143,60 @@ def get_medical_info():
 
             # Generate PDF with user inputs and prediction result
             pdf_filename = f"medical_report_{int(time.time())}.pdf"  # Unique filename using timestamp
-            pdf_path = os.path.join(r'C:\Users\soham\OneDrive\Desktop\alzheimers_website\temp_save', pdf_filename)
+            pdf_path = os.path.join(r'C:\Users\soham\OneDrive\Desktop\team_salvators_second_round_submission\src\temp_save', pdf_filename)
+          
 
             pdf_buffer = BytesIO()
             doc = SimpleDocTemplate(pdf_buffer, pagesize=letter)
 
-            c.drawString(100, 750, f"Age: {input_features[0]}")
-            c.drawString(100, 730, f"Gender: {input_features[1]}")
-            c.drawString(100, 710, f"Ethnicity: {input_features[2]}")
-            c.drawString(100, 690, f"Education Level: {input_features[3]}")
-            c.drawString(100, 670, f"BMI: {input_features[4]}")
-            c.drawString(100, 650, f"Smoking: {input_features[5]}")
-            c.drawString(100, 630, f"Family History of Alzheimer's: {input_features[6]}")
-            c.drawString(100, 610, f"Cardiovascular Disease: {input_features[7]}")
-            c.drawString(100, 590, f"Diabetes: {input_features[8]}")
-            c.drawString(100, 570, f"Depression: {input_features[9]}")
-            c.drawString(100, 550, f"Head Injury: {input_features[10]}")
-            c.drawString(100, 530, f"Hypertension: {input_features[11]}")
-            c.drawString(100, 510, f"Systolic BP: {input_features[12]}")
-            c.drawString(100, 490, f"Diastolic BP: {input_features[13]}")
-            c.drawString(100, 470, f"Cholesterol Total: {input_features[14]}")
-            c.drawString(100, 450, f"Cholesterol LDL: {input_features[15]}")
-            c.drawString(100, 430, f"Cholesterol HDL: {input_features[16]}")
-            c.drawString(100, 410, f"Cholesterol Triglycerides: {input_features[17]}")
-            c.drawString(100, 390, f"MMSE: {input_features[18]}")
-            c.drawString(100, 370, f"Functional Assessment: {input_features[19]}")
-            c.drawString(100, 350, f"Diagnosis: {diagnosis}")
+            data = [
+              ["Feature", "Value"],
+              ["Age", input_features[0]],
+              ["Gender", input_features[1]],
+              ["Ethnicity", input_features[2]],
+              ["Education Level", input_features[3]],
+              ["BMI", input_features[4]],
+              ["Smoking", input_features[5]],
+              ["Family History of Alzheimer's", input_features[6]],
+              ["Cardiovascular Disease", input_features[7]],
+              ["Diabetes", input_features[8]],
+              ["Depression", input_features[9]],
+              ["Head Injury", input_features[10]],
+              ["Hypertension", input_features[11]],
+              ["Systolic BP", input_features[12]],
+              ["Diastolic BP", input_features[13]],
+              ["Cholesterol Total", input_features[14]],
+              ["Cholesterol LDL", input_features[15]],
+              ["Cholesterol HDL", input_features[16]],
+              ["Cholesterol Triglycerides", input_features[17]],
+              ["MMSE", input_features[18]],
+              ["Functional Assessment", input_features[19]],
+              ["Memory Complaints", input_features[21]],  # New parameters start here
+              ["Behavioral Problems", input_features[22]],
+              ["ADL Value", input_features[20]],  # ADL placed after Behavioral Problems
+              ["Confusion", input_features[23]],
+              ["Disorientation", input_features[24]],
+              ["Personality Changes", input_features[25]],
+              ["Difficulty Completing Tasks", input_features[26]],
+              ["Forgetfulness", input_features[27]],
+              ["Diagnosis", diagnosis]  # Diagnosis as the last parameter
+                                               ]
 
-            c.showPage()
-            c.save()
+            table = Table(data)
+            table.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('FONTSIZE', (0, 0), (-1, 0), 12),
+                ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                ('GRID', (0, 0), (-1, -1), 1, colors.black),
+            ]))
 
-            # Save the PDF to the folder
+            elements = [table]
+            doc.build(elements)
+
             with open(pdf_path, 'wb') as f:
                 f.write(pdf_buffer.getvalue())
 
@@ -188,10 +212,9 @@ def get_medical_info():
 def trigger_pdf_generation(filename):
     try:
         # Construct the full path to the PDF file
-        pdf_path = os.path.join(r'C:\Users\soham\OneDrive\Desktop\alzheimers_website\temp_save', filename)
+        pdf_path = os.path.join(r'C:\Users\soham\OneDrive\Desktop\team_salvators_second_round_submission\src\temp_save', filename)
         print(f"PDF Path: {pdf_path}")  # Debugging line
-
-        # Check if the file exists
+       
         if os.path.exists(pdf_path):
             return send_file(pdf_path, as_attachment=False, mimetype='application/pdf')
         else:
