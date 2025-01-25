@@ -1,9 +1,9 @@
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout
+from keras.models import Sequential
+from keras.layers import Dense, Dropout
 import joblib
 import numpy as np
-from tensorflow.keras.preprocessing import image
-from tensorflow.keras.applications import DenseNet201
+from keras.preprocessing import image
+from keras.applications import DenseNet201
 import os
 import tempfile
 from flask import Flask, render_template, request, redirect, url_for, send_file
@@ -18,7 +18,7 @@ app = Flask(__name__)
 scaler = joblib.load('scaler.pkl')  # Load the scaler
 stacking_model = joblib.load('stacking_model.pkl')  # Load the stacking model
 
-model_dir = r'C:\Users\soham\OneDrive\Desktop\team_salvators_second_round_submission\src\ct_scan_models'
+model_dir = r'C:\Users\soham\OneDrive\Desktop\src\ct_scan_models'
 
 
 # Load DenseNet model weights
@@ -143,7 +143,7 @@ def get_medical_info():
 
             # Generate PDF with user inputs and prediction result
             pdf_filename = f"medical_report_{int(time.time())}.pdf"  # Unique filename using timestamp
-            pdf_path = os.path.join(r'C:\Users\soham\OneDrive\Desktop\team_salvators_second_round_submission\src\temp_save', pdf_filename)
+            pdf_path = os.path.join(r'C:\Users\soham\OneDrive\Desktop\src\temp_save', pdf_filename)
           
 
             pdf_buffer = BytesIO()
@@ -212,7 +212,7 @@ def get_medical_info():
 def trigger_pdf_generation(filename):
     try:
         # Construct the full path to the PDF file
-        pdf_path = os.path.join(r'C:\Users\soham\OneDrive\Desktop\team_salvators_second_round_submission\src\temp_save', filename)
+        pdf_path = os.path.join(r'C:\Users\soham\OneDrive\Desktop\src\temp_save', filename)
         print(f"PDF Path: {pdf_path}")  # Debugging line
        
         if os.path.exists(pdf_path):
