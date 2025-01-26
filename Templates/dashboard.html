@@ -9,14 +9,14 @@
 <body id="body_2" img src="{{ url_for('static', filename='images/background.webp') }}" alt="Background">
 
     <div class="container">
-        <!-- Initial Page: "Do you have a CT scan?" -->
+        
         <div id="ct-scan-question">
-            <h1 class="h_1">DO YOU HAVE A RECENT CT SCAN OF YOUR BRAIN?</h1>
+            <h1 class="h_1">DO YOU HAVE A RECENT MRI SCAN OF YOUR BRAIN?</h1>
 
-            <!-- CT Scan Image and Description -->
+            
             <div id="ct-scan-info">
                 <div class="ct-image">
-                    <img src="{{ url_for('static', filename='images/ct_scan_img.jpg') }}" alt="CT Scan">
+                    <img src="{{ url_for('static', filename='images/ct_scan_img.jpg') }}" alt="MRI Scan">
                 </div>
 
                 <p class="ct-description">
@@ -33,7 +33,7 @@
 
         <!-- Upload Image Section -->
         <div id="upload-section" style="display:none;">
-            <h1 class="h_1">Upload Your CT Scan Image</h1>
+            <h1 class="h_1">Upload Your MRI Scan Image</h1>
             <form action="/upload_ct_scan" method="POST" enctype="multipart/form-data" onsubmit="showProgressBar()">
                 <div class="upload-box">
                     <input type="file" name="ct_scan" accept="image/*" required>
@@ -85,7 +85,7 @@
         <div class="progress-bar-container">
             <div class="progress-bar"></div>
         </div>
-        <p>Please wait while we process your CT scan...</p>
+        <p>Please wait while we process your MRI scan...</p>
     </div>
 
     <style>

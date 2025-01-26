@@ -237,7 +237,7 @@ li:nth-child(odd) {
     color: #ffffff;
 }
 
-/* CT Scan Info Section */
+
 #ct-scan-info {
     display: flex;
     flex-direction: column;

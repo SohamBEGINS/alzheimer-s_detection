@@ -2,6 +2,10 @@ document.getElementById('loginBtn').addEventListener('click', function() {
     window.location.href = '/login';
 });
 
+document.getElementById('signupBtn').addEventListener('click', function() {
+    window.location.href = '/sign_up';
+});
+
 
 document.getElementById("tryButton").addEventListener("click", function () {
     // Slide up and fade out the intro content (previous text)

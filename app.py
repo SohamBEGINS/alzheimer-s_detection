@@ -11,6 +11,13 @@ from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from io import BytesIO
 import time
+from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import session
+from werkzeug.security import generate_password_hash, check_password_hash
+from pymongo import MongoClient
+from keras.utils import load_img
+from keras.utils import img_to_array
+
 
 app = Flask(__name__)
 
@@ -42,28 +49,90 @@ pca = joblib.load(os.path.join(model_dir, 'pca_model.pkl'))  # Load PCA model
 # Sample credentials for demonstration purposes
 USER_CREDENTIALS = {"username": "admin", "password": "password123"}
 
+
+# Secret key for session management
+app.secret_key = '69'
+
+
+# MongoDB configuration
+client = MongoClient("mongodb://localhost:27017/")  # Default MongoDB URI
+db = client['user_db']  # Use a database named 'user_db'
+users_collection = db['users']  # Use a collection (table) named 'users'
+
+# Route for the home page
 @app.route('/')
 def home():
     return render_template('index.html')
 
+# Route for login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
 
-        # Check if credentials are correct
-        if username == USER_CREDENTIALS["username"] and password == USER_CREDENTIALS["password"]:
-            return redirect(url_for('dashboard'))  # Redirect to dashboard or main page after login
+        # Find user by username
+        user = users_collection.find_one({"username": username})
+
+        if user and check_password_hash(user['password'], password):
+            session['user_id'] = str(user['_id'])  # Store user ID in session
+            session['username'] = user['username']
+            return redirect(url_for('dashboard'))
         else:
-            error = "Invalid username or password. Please try again."
-            return render_template('login.html', error=error)
+            flash('Invalid username or password, please try again.' , 'error')
+            return redirect(url_for('login'))
 
     return render_template('login.html')
 
-@app.route('/dashboard', methods=['GET', 'POST'])
+# Route for the registration page
+@app.route('/sign_up', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        email = request.form['email']
+
+        # Hash the password before saving
+        hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+
+        # Check if username already exists
+        existing_user = users_collection.find_one({"username": username})
+
+        if existing_user:
+            flash('Username already exists. Please try another one.' ,'error')
+            return redirect(url_for('register'))
+
+        # Create a new user and insert into MongoDB
+        new_user = {
+            "username": username,
+            "password": hashed_password,
+            "email": email,
+            "created_at": None  # MongoDB will use the default timestamp
+        }
+
+        users_collection.insert_one(new_user)
+        flash('Registration successful! You can now log in.' , 'success')
+
+        return redirect(url_for('login'))
+
+    return render_template('sign_up.html')
+
+# Route for the dashboard page
+@app.route('/dashboard')
 def dashboard():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    username = session.get('username')
     return render_template('dashboard.html')
+
+# Route for logout
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
+
+
 
 from flask import Flask, render_template, request, redirect, send_file
 import os
@@ -229,7 +298,6 @@ def trigger_pdf_generation(filename):
 from flask import jsonify
 import time
 
-import time
 
 @app.route('/upload_ct_scan', methods=['POST'])
 def upload_ct_scan():
@@ -243,8 +311,8 @@ def upload_ct_scan():
             tmp.close()  # Close the file so it can be used by load_img
 
             # Preprocess the image (resize, rescale, etc.)
-            img = image.load_img(tmp.name, target_size=(224, 224))  # Pass the temporary file path
-            img_array = image.img_to_array(img)  # Convert image to array
+            img = load_img(tmp.name, target_size=(224, 224))  # Pass the temporary file path
+            img_array = img_to_array(img)  # Convert image to array
             img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
             img_array = img_array / 255.0  # Rescale the image
 
