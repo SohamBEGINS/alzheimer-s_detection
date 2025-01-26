@@ -116,8 +116,6 @@
     <li><strong>data/:</strong> Organized dataset for training and testing, including CT scan images and medical records.</li>
 </ul>
 
-<h2>Acknowledgments</h2>
-<p>Special thanks to Vellore Institute of Technology for hosting a competition that inspires and pushes students to showcase their technical and innovative side.</p>
 
 <h2>Contact</h2>
 <p>For inquiries, please contact:</p>
@@ -127,4 +125,4 @@
 </ul>
 
 <p><strong>Copyright Notice</strong></p>
-<p>This project is created for a competition and is not open for public use, redistribution, or modification. All rights are reserved by the author. Unauthorized use or distribution of this code is prohibited.</p>
+<p>All rights are reserved by the author. Unauthorized use or distribution of this code is prohibited.</p>
