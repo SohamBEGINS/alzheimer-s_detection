@@ -17,7 +17,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from pymongo import MongoClient
 from keras.utils import load_img
 from keras.utils import img_to_array
-
+from middleware import auth , guest
 
 app = Flask(__name__)
 
@@ -55,17 +55,19 @@ app.secret_key = '69'
 
 
 # MongoDB configuration
-client = MongoClient("mongodb://localhost:27017/")  # Default MongoDB URI
-db = client['user_db']  # Use a database named 'user_db'
+client = MongoClient("mongodb://localhost:27017/")  
+db = client['user_db']  
 users_collection = db['users']  # Use a collection (table) named 'users'
 
 # Route for the home page
 @app.route('/')
 def home():
+    session.clear()
     return render_template('index.html')
 
 # Route for login
 @app.route('/login', methods=['GET', 'POST'])
+@guest
 def login():
     if request.method == 'POST':
         username = request.form['username']
@@ -86,6 +88,7 @@ def login():
 
 # Route for the registration page
 @app.route('/sign_up', methods=['GET', 'POST'])
+@guest
 def register():
     if request.method == 'POST':
         username = request.form['username']
@@ -119,6 +122,7 @@ def register():
 
 # Route for the dashboard page
 @app.route('/dashboard')
+@auth
 def dashboard():
     if 'user_id' not in session:
         return redirect(url_for('login'))
@@ -145,6 +149,7 @@ from reportlab.lib import colors
 
 
 @app.route('/medical_info', methods=['GET', 'POST'])
+@auth
 def get_medical_info():
     if request.method == 'POST':
         try:
@@ -278,6 +283,7 @@ def get_medical_info():
         return render_template('predict_medical.html')
 
 @app.route('/trigger_pdf_generation/<filename>', methods=['GET'])
+@auth
 def trigger_pdf_generation(filename):
     try:
         # Construct the full path to the PDF file
@@ -300,6 +306,7 @@ import time
 
 
 @app.route('/upload_ct_scan', methods=['POST'])
+@auth
 def upload_ct_scan():
     try:
         # Get image file from POST request
