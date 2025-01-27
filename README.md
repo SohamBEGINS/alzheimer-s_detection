@@ -1,5 +1,5 @@
 <h2>Overview</h2>
-<p>The Alzheimer's Detection Website is an intuitive platform designed to aid in the detection and classification of Alzheimer's disease using deep learning models. The site enables users to upload CT scan images for analysis and provides reliable classification into categories such as:</p>
+<p>The Alzheimer's Detection Website is an intuitive platform designed to aid in the detection and classification of Alzheimer's disease using deep learning models. The site enables users to upload MRI scan images for analysis and provides reliable classification into categories such as:</p>
 <ul>
     <li>Non-Demented</li>
     <li>Very Mild Demented</li>
@@ -11,19 +11,19 @@
 
 <p>This project serves as a tool to assist healthcare professionals and researchers in the early detection and monitoring of Alzheimer's disease progression. Additionally, the platform incorporates two distinct models:</p>
 <ul>
-    <li><strong>CT Scan Model:</strong> This model analyzes CT scan images and classifies them into the four stages of dementia: Non-Demented, Very Mild Demented, Mild Demented, and Moderate Demented.</li>
+    <li><strong>MRI Scan Model:</strong> This model analyzes MRI scan images and classifies them into the four stages of dementia: Non-Demented, Very Mild Demented, Mild Demented, and Moderate Demented.</li>
     <li><strong>Medical Data Model:</strong> This model takes in user medical data and provides a classification indicating whether the user is likely to have Alzheimer's or not.</li>
 </ul>
 <p>Furthermore, users can generate a detailed PDF report based on the medical data they provide, summarizing the analysis and classification results.</p>
 
 <h2>Features</h2>
 <ul>
-    <li><strong>Image Upload:</strong> Users can easily upload CT scan images for analysis.</li>
+    <li><strong>Image Upload:</strong> Users can easily upload MRI scan images for analysis.</li>
     <li><strong>Medical Data Input:</strong> Users can enter medical data (e.g., age, medical history, etc.) for analysis.</li>
-    <li><strong>Classification Results:</strong> The site provides accurate classification results from both the CT scan and medical data models.</li>
+    <li><strong>Classification Results:</strong> The site provides accurate classification results from both the MRI scan and medical data models.</li>
     <li><strong>PDF Generation:</strong> Based on the medical data provided, users can generate a detailed PDF report summarizing the classification results and analysis.</li>
     <li><strong>User-Friendly Interface:</strong> Built with Flask and Jinja2, the website is simple and intuitive to navigate.</li>
-    <li><strong>Robust Models:</strong> Powered by deep learning models trained on an extensive dataset of CT scans and medical data.</li>
+    <li><strong>Robust Models:</strong> Powered by deep learning models trained on an extensive dataset of MRI scans and medical data.</li>
 </ul>
 
 <h2>Dataset</h2>
@@ -47,8 +47,8 @@
 <p>The dataset can be found at the following link: 
 <a href="https://www.kaggle.com/datasets/rabieelkharoua/alzheimers-disease-dataset/data">Medical Data Dataset on Kaggle</a></p>
 
-<h3>Model-2: CT Scan Image Model</h3>
-<p>Model-2 uses a dataset of CT scan images for classifying the severity of Alzheimer's Disease. The dataset consists of a total of 6400 images divided into four categories:</p>
+<h3>Model-2: MRI Scan Image Model</h3>
+<p>Model-2 uses a dataset of MRI scan images for classifying the severity of Alzheimer's Disease. The dataset consists of a total of 6400 images divided into four categories:</p>
 <ul>
     <li><strong>Mild Demented:</strong> 896 images</li>
     <li><strong>Moderate Demented:</strong> 64 images</li>
@@ -64,7 +64,7 @@
 </ul>
 
 <p>The dataset can be found at the following link: 
-<a href="https://www.kaggle.com/datasets/raihannaufalramadhan/alzheimer-data">CT Scan Dataset on Kaggle</a></p>
+<a href="https://www.kaggle.com/datasets/raihannaufalramadhan/alzheimer-data">MRI Scan Dataset on Kaggle</a></p>
 
 <h2>Technologies Used</h2>
 <ul>
@@ -101,9 +101,9 @@
 <h2>Usage</h2>
 <ol>
     <li>Navigate to the website.</li>
-    <li>Upload a CT scan image in the supported format or input medical data.</li>
+    <li>Upload a MRI scan image in the supported format or input medical data.</li>
     <li>Click the "Analyze" button to classify the image or medical data.</li>
-    <li>View the classification results on the results page. For CT scans, the result will indicate the dementia stage, and for medical data, it will indicate Alzheimer's or Non-Alzheimer's status.</li>
+    <li>View the classification results on the results page. For MRI scans, the result will indicate the dementia stage, and for medical data, it will indicate Alzheimer's or Non-Alzheimer's status.</li>
     <li>If you provided medical data, you can generate a PDF report summarizing the analysis by clicking the "Generate PDF" button.</li>
 </ol>
 
@@ -112,8 +112,8 @@
     <li><strong>app.py:</strong> Main Flask application file.</li>
     <li><strong>templates/:</strong> Contains HTML files for the website.</li>
     <li><strong>static/:</strong> Includes CSS, JavaScript, and image assets.</li>
-    <li><strong>models/:</strong> Pre-trained deep learning models for CT scan and medical data classification.</li>
-    <li><strong>data/:</strong> Organized dataset for training and testing, including CT scan images and medical records.</li>
+    <li><strong>models/:</strong> Pre-trained deep learning models for MRI scan and medical data classification.</li>
+    <li><strong>data/:</strong> Organized dataset for training and testing, including MRI scan images and medical records.</li>
 </ul>
 
 
