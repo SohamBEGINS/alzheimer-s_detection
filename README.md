@@ -75,25 +75,7 @@
     <li><strong>PDF Generation:</strong> Python libraries such as FPDF for generating PDF reports based on medical data.</li>
 </ul>
 
-<h2>Installation</h2>
-<ol>
-    <li>Clone the repository:
-        <pre><code>git clone https://github.com/SohamBEGINS/alzheimer-s_detection</code></pre>
-    </li>
-    <li>Install dependencies:
-        <pre><code>pip install -r requirements.txt</code></pre>
-    </li>
-    <li>Run the Flask application:
-        <pre><code>python app.py</code></pre>
-    </li>
-    <li>Log in to the application:
-        <ul>
-            <li>Username: <code>admin</code></li>
-            <li>Password: <code>password123</code></li>
-        </ul>
-    </li>
-    <li>Open your browser and go to <code>http://127.0.0.1:5000</code>.</li>
-</ol>
+
 
 <h2>Usage</h2>
 <ol>
