@@ -19,7 +19,8 @@ from keras.utils import load_img
 from keras.utils import img_to_array
 from middleware import auth , guest
 
-app = Flask(__name__)
+application = Flask(__name__)
+app = application
 
 # Load models and scaler
 scaler = joblib.load('scaler.pkl')  # Load the scaler
@@ -363,4 +364,4 @@ def upload_ct_scan():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0")
