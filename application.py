@@ -2,22 +2,22 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout
 import joblib
 import numpy as np
-from keras.preprocessing import image
 from keras.applications import DenseNet201
 import os
 import tempfile
-from flask import Flask, render_template, request, redirect, url_for, send_file
 from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
 from io import BytesIO
 import time
-from flask import Flask, render_template, request, redirect, url_for, flash
-from flask import session
+from flask import Flask, render_template, request, redirect, url_for, flash  , send_file , session
 from werkzeug.security import generate_password_hash, check_password_hash
 from pymongo import MongoClient
-from keras.utils import load_img
-from keras.utils import img_to_array
+from keras.utils import load_img , img_to_array
 from middleware import auth , guest
+import time
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.lib import colors
+from datetime import datetime , timezone
 
 application = Flask(__name__)
 app = application
@@ -121,7 +121,7 @@ def register():
             "username": username,
             "password": hashed_password,
             "email": email,
-            "created_at": None 
+            "created_at": datetime.now(timezone.utc)
         }
 
         users_collection.insert_one(new_user)
@@ -146,17 +146,6 @@ def dashboard():
 def logout():
     session.clear()
     return redirect(url_for('login'))
-
-
-
-from flask import Flask, render_template, request, redirect, send_file
-import os
-import time
-from io import BytesIO
-from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
-from reportlab.lib import colors
-
 
 
 @app.route('/medical_info', methods=['GET', 'POST'])
