@@ -59,6 +59,16 @@ client = MongoClient("mongodb://localhost:27017/")
 db = client['user_db']  
 users_collection = db['users']  # Use a collection (table) named 'users'
 
+from flask import make_response
+
+@app.after_request
+def add_cache_control_headers(response):
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
+
+
 # Route for the home page
 @app.route('/')
 def home():
@@ -210,71 +220,16 @@ def get_medical_info():
                 int(request.form['Forgetfulness'])
             ])
 
+            # Scale features and predict
             scaled_features = scaler.transform([input_features])
             prediction = stacking_model.predict(scaled_features)
-
             diagnosis = "Positive for Alzheimer's" if prediction[0] == 1 else "Negative for Alzheimer's"
 
-            # Generate PDF with user inputs and prediction result
-            pdf_filename = f"medical_report_{int(time.time())}.pdf"  # Unique filename using timestamp
-            pdf_path = os.path.join('\temp_save', pdf_filename)
-          
+            # Save the prediction and input data in the session
+            session['input_features'] = input_features
+            session['diagnosis'] = diagnosis
 
-            pdf_buffer = BytesIO()
-            doc = SimpleDocTemplate(pdf_buffer, pagesize=letter)
-
-            data = [
-              ["Feature", "Value"],
-              ["Age", input_features[0]],
-              ["Gender", input_features[1]],
-              ["Ethnicity", input_features[2]],
-              ["Education Level", input_features[3]],
-              ["BMI", input_features[4]],
-              ["Smoking", input_features[5]],
-              ["Family History of Alzheimer's", input_features[6]],
-              ["Cardiovascular Disease", input_features[7]],
-              ["Diabetes", input_features[8]],
-              ["Depression", input_features[9]],
-              ["Head Injury", input_features[10]],
-              ["Hypertension", input_features[11]],
-              ["Systolic BP", input_features[12]],
-              ["Diastolic BP", input_features[13]],
-              ["Cholesterol Total", input_features[14]],
-              ["Cholesterol LDL", input_features[15]],
-              ["Cholesterol HDL", input_features[16]],
-              ["Cholesterol Triglycerides", input_features[17]],
-              ["MMSE", input_features[18]],
-              ["Functional Assessment", input_features[19]],
-              ["Memory Complaints", input_features[21]],  # New parameters start here
-              ["Behavioral Problems", input_features[22]],
-              ["ADL Value", input_features[20]],  # ADL placed after Behavioral Problems
-              ["Confusion", input_features[23]],
-              ["Disorientation", input_features[24]],
-              ["Personality Changes", input_features[25]],
-              ["Difficulty Completing Tasks", input_features[26]],
-              ["Forgetfulness", input_features[27]],
-              ["Diagnosis", diagnosis]  # Diagnosis as the last parameter
-                                               ]
-
-            table = Table(data)
-            table.setStyle(TableStyle([
-                ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                ('FONTSIZE', (0, 0), (-1, 0), 12),
-                ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-                ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-                ('GRID', (0, 0), (-1, -1), 1, colors.black),
-            ]))
-
-            elements = [table]
-            doc.build(elements)
-
-            with open(pdf_path, 'wb') as f:
-                f.write(pdf_buffer.getvalue())
-
-            return render_template('result.html', diagnosis=diagnosis, pdf_filename=pdf_filename)
+            return redirect('/generate_pdf')
 
         except Exception as e:
             return f"Error: {str(e)}"
@@ -282,20 +237,81 @@ def get_medical_info():
     else:
         return render_template('predict_medical.html')
 
-@app.route('/trigger_pdf_generation/<filename>', methods=['GET'])
+
+@app.route('/generate_pdf', methods=['GET'])
 @auth
-def trigger_pdf_generation(filename):
+def trigger_pdf():
     try:
-        # Construct the full path to the PDF file
-        pdf_path = os.path.join('\temp_save', filename)
-        print(f"PDF Path: {pdf_path}")  # Debugging line
-       
-        if os.path.exists(pdf_path):
-            return send_file(pdf_path, as_attachment=False, mimetype='application/pdf')
-        else:
-            return "PDF file does not exist.", 404
+        # Retrieve the data from the session
+        input_features = session.get('input_features')
+        diagnosis = session.get('diagnosis')
+
+        if not input_features or not diagnosis:
+            return "Error: Missing data for PDF generation"
+
+        # Generate PDF with user inputs and prediction result
+        pdf_buffer = BytesIO()
+        doc = SimpleDocTemplate(pdf_buffer, pagesize=letter)
+
+        data = [
+            ["Feature", "Value"],
+            ["Age", input_features[0]],
+            ["Gender", input_features[1]],
+            ["Ethnicity", input_features[2]],
+            ["Education Level", input_features[3]],
+            ["BMI", input_features[4]],
+            ["Smoking", input_features[5]],
+            ["Family History of Alzheimer's", input_features[6]],
+            ["Cardiovascular Disease", input_features[7]],
+            ["Diabetes", input_features[8]],
+            ["Depression", input_features[9]],
+            ["Head Injury", input_features[10]],
+            ["Hypertension", input_features[11]],
+            ["Systolic BP", input_features[12]],
+            ["Diastolic BP", input_features[13]],
+            ["Cholesterol Total", input_features[14]],
+            ["Cholesterol LDL", input_features[15]],
+            ["Cholesterol HDL", input_features[16]],
+            ["Cholesterol Triglycerides", input_features[17]],
+            ["MMSE", input_features[18]],
+            ["Functional Assessment", input_features[19]],
+            ["ADL Value", input_features[20]],
+            ["Memory Complaints", input_features[21]],
+            ["Behavioral Problems", input_features[22]],
+            ["Confusion", input_features[23]],
+            ["Disorientation", input_features[24]],
+            ["Personality Changes", input_features[25]],
+            ["Difficulty Completing Tasks", input_features[26]],
+            ["Forgetfulness", input_features[27]],
+            ["Diagnosis", diagnosis]
+        ]
+
+        table = Table(data)
+        table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('FONTSIZE', (0, 0), (-1, 0), 12),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+
+        elements = [table]
+        doc.build(elements)
+
+        pdf_buffer.seek(0)  # Reset the buffer's position
+
+        return send_file(
+            pdf_buffer,
+            as_attachment=True,
+            download_name=f"medical_report.pdf",
+            mimetype='application/pdf'
+        )
+
     except Exception as e:
-        return f"Error: {str(e)}", 500
+        return f"Error: {str(e)}"
 
 
 
