@@ -55,7 +55,7 @@ app.secret_key = '69'
 
 
 # MongoDB configuration
-client = MongoClient("mongodb://localhost:27017/")  
+client = MongoClient("mongodb+srv://alzheimer_detection:soham_animesh007@alzheimersdetection.mo7vr.mongodb.net/")  
 db = client['user_db']  
 users_collection = db['users']  # Use a collection (table) named 'users'
 
