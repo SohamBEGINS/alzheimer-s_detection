@@ -80,9 +80,6 @@
     <li>Clone the repository:
         <pre><code>git clone https://github.com/SohamBEGINS/alzheimer-s_detection</code></pre>
     </li>
-    <li>Navigate to the project directory:
-        <pre><code>cd alzheimers_detection-team_salvatores</code></pre>
-    </li>
     <li>Install dependencies:
         <pre><code>pip install -r requirements.txt</code></pre>
     </li>
